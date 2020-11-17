@@ -31,7 +31,31 @@ public class FileAllocation {
         }
     }
     
-
+    static void output2(int size) {
+        String text = "";
+        Integer id = 0;
+        String s = "";
+        ArrayList<String> textOutput = new ArrayList<>();
+        System.out.println("File Name\t\tBlocks");
+        for (int i = 0; i < size; i++) {
+            if (blockMem[i].occupied && (blockMem[i].fileID != id)) {
+                text = blockMem[i].fileName + "\t\t\t";
+                id = blockMem[i].fileID;
+                s = "";
+                for (int j = i; j < size; j++) {
+                    if (blockMem[i].fileID == blockMem[j].fileID) {
+                        s += (j+1)+" ,";
+                    } else {
+                        text = text + ""+s;
+                        System.out.println(text);
+                        text = "";
+                        break;
+                    }
+                }
+            }
+        }
+   }
+    
     static void init(int length) {
         blockMem = new block[length];
         for (int i = 0; i < length; i++) {
@@ -96,6 +120,7 @@ public class FileAllocation {
             if (!enoughMemorySpace(length, size)) {
                 System.out.println("Not enough memory space");
                 output(size);
+                output2(size);
                 return;
             }
             start = getRandomNumber(0, (size - 1) - length);
@@ -113,5 +138,6 @@ public class FileAllocation {
             }
         } while(cont == true);
         output(size);
+        output2(size);
     }
 }
