@@ -19,10 +19,30 @@ public class FileAllocation {
         }
         return true;
     }
-
     
     static void output(int size) {
-
+        String text = "", name = "";
+        int s = 0;
+        ArrayList<String> textOutput = new ArrayList<>();
+        System.out.println("File Name\tStart\tend\tLength");
+        for (int i = 0; i < size; i++) {
+            if (blockMem[i].occupied && (!name.equals(blockMem[i].fileName))) {
+                text = blockMem[i].fileName + "\t\t"+i;
+                name = blockMem[i].fileName;
+                s = 0;
+                for (int j = i + 1; j < size; j++) {
+                    if (blockMem[i].fileName == blockMem[j].fileName) {
+                        s++;
+                    } else {
+                        text = text + "\t"+(i+s)+"\t"+s;
+                        System.out.println(text);
+                        text = "";
+                        break;
+                    }
+                }
+            }
+        }
+     
     }
     
     static void init(int length) {
