@@ -3,15 +3,23 @@ import java.util.*;
 
 public class FileAllocation {
     static block[] blockMem;
+    static ArrayList<Integer> checkOccupiedIndexes = new ArrayList<>();
     
     static boolean isEmpty(int start, int length) {
+        checkOccupiedIndexes.clear();
+        boolean end = false;
         for (int i = start; i < start + length; i++) {
             if (blockMem[i].occupied) {
-            	return false
+                checkOccupiedIndexes.add(i);
+                end = true;
             }
+        }
+        if (end) {
+            return false;
         }
         return true;
     }
+
     
     static void output(int size) {
 
@@ -31,8 +39,14 @@ public class FileAllocation {
                 blockMem[i].occupied = true;
                 
             }
+            System.out.println("Occupied starting from "+start+" to "+((start+length) - 1)+" and file name is "+fileName);
             return true;
         }
+        String output = "";
+        for (int i = 0; i < checkOccupiedIndexes.size(); i++) {
+            output = output+" "+checkOccupiedIndexes.get(i);
+        }
+        System.out.println(output+" these blocks are occupied");
         return false;
     }
     public static int getRandomNumber(int min, int max) {
