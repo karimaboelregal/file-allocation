@@ -5,7 +5,6 @@ import java.util.ArrayList;
 public class contiguos {
     static block[] blockMem;
     static ArrayList<Integer> ints = new ArrayList<>();
-    static int IDS = 0;
 
     contiguos(int length) {
         blockMem = new block[length];
@@ -63,9 +62,9 @@ public class contiguos {
    }
     
     static void AllocateMemory(int start, int length, String fileName) {
-        IDS = IDS + 1 ;
+        FileAllocation.IDS = FileAllocation.IDS + 1 ;
         for (int i = start; i < start + length; i++) {
-            blockMem[i].fileID = IDS;
+            blockMem[i].fileID = FileAllocation. IDS;
             blockMem[i].fileName = fileName;
             blockMem[i].occupied = true;
             ints.add(i);
