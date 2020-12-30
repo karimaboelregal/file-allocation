@@ -3,8 +3,8 @@ package file.allocation;
 import java.util.ArrayList;
 
 public class contiguos {
-    static block[] blockMem;
-    static ArrayList<Integer> ints = new ArrayList<>();
+    block[] blockMem;
+    ArrayList<Integer> ints = new ArrayList<>();
 
     contiguos(int length) {
         blockMem = new block[length];
@@ -13,7 +13,7 @@ public class contiguos {
         }
     }
 
-    static void output(int size) {
+    void output(int size) {
         String text = "";
         Integer id = 0;
         int s = 0;
@@ -37,7 +37,7 @@ public class contiguos {
         }
     }
     
-    static void output2(int size) {
+    void output2(int size) {
         String text = "";
         Integer id = 0;
         String s = "";
@@ -61,7 +61,7 @@ public class contiguos {
         }
    }
     
-    static void AllocateMemory(int start, int length, String fileName) {
+    void AllocateMemory(int start, int length, String fileName) {
         FileAllocation.IDS = FileAllocation.IDS + 1 ;
         for (int i = start; i < start + length; i++) {
             blockMem[i].fileID = FileAllocation. IDS;
@@ -72,7 +72,7 @@ public class contiguos {
         System.out.println("Occupied starting from "+(start+1)+" to "+((start+length))+" and file name is "+fileName);     
     }
     
-    public static Boolean existInMemory(int start) {
+    public Boolean existInMemory(int start) {
         for (int i = 0; i < ints.size(); i++) {
             if (start == ints.get(i)) {
                 return true;
@@ -82,7 +82,7 @@ public class contiguos {
     }
     
     
-    public static Boolean enoughContigiousMemory(int start, int length) {
+    public Boolean enoughContigiousMemory(int start, int length) {
         for(int i = start; i < start +length; i++) {
             if (blockMem[i].occupied) {
                 return false;
@@ -91,7 +91,7 @@ public class contiguos {
         return true;
     }
     
-    public static Boolean enoughMemorySpace(int length, int size) {
+    public Boolean enoughMemorySpace(int length, int size) {
         int count = 0;
         for (int i = 0; i < size; i++) {
             if (!blockMem[i].occupied) {
