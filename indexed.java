@@ -1,58 +1,56 @@
 package file.allocation;
 
-public class linked {
+import java.util.ArrayList;
+
+
+public class indexed {
     block[] blockMem;
     int max;
     
-    linked(int length) {
+    indexed(int length) {
         blockMem = new block[length];
         max = length;
         for (int i = 0; i < length; i++) {
             blockMem[i] = new block();
-            blockMem[i].root = false;
         }
     }
-    int getRandomLinkedBlock(int length) {
+    
+    int getIndexedRandomNumber(int length) {
         int rand = FileAllocation.getRandomNumber(0, length);
         while(blockMem[rand].occupied) {
             rand = FileAllocation.getRandomNumber(0, length);
         }
         return rand;
     }
+
     Boolean enoughBlocks(int length) {
         int current = 0;
         for (int i = 0; i < max; i++) {
             if (!blockMem[i].occupied) {
                 current++;
-                if (current >= length) {
+                if (current >= (length+1)) {
                     return true;
                 }
             }   
         }
        return false;
     }
+
     
     void output() {
         String text = "";
-        block current;
-        System.out.println("File Name\tblocks");
+        System.out.println("File Name\tindex Block\tBlock");
         for (int i = 0; i < max; i++) {
             if (blockMem[i].root) {
-                current = blockMem[i];
-                text += blockMem[i].fileName+"\t\t"+i+" > ";
-                while (current.next != Integer.MIN_VALUE) {
-                    text += current.next;
-                    current = blockMem[current.next];
-                    if (current.next != Integer.MIN_VALUE) {
-                        text += " > ";
-                    }
+                text += blockMem[i].fileName+"\t\t"+i+"\t\t";
+                for (int j = 0; j < blockMem[i].indexes.size(); j++) {
+                    text += blockMem[i].indexes.get(j) + ", ";
                 }
-                text += "\n";
+                text+="\n";
             }
         }
         System.out.println(text);
     }
-
     
     void AllocateMemory(int length, String fileName) {
         if (!enoughBlocks(length)) {
@@ -60,31 +58,21 @@ public class linked {
             return;
         }
         FileAllocation.IDS = FileAllocation.IDS + 1 ;
-        int j = 0;
-        int temp;
-        int rand[] = new int[2];
-        rand[j] = getRandomLinkedBlock(max);
+        int start = getIndexedRandomNumber(max);
+        blockMem[start].fileID = FileAllocation.IDS;
+        blockMem[start].fileName = fileName;
+        blockMem[start].occupied = true;
+        blockMem[start].root = true;
+        int rand;
         String text = "";
         for (int i = 0; i < length; i++) {
-            
-            if (i == 0) {
-                blockMem[rand[j]].root = true;
-            }
-            blockMem[rand[j]].fileID = FileAllocation.IDS;
-            blockMem[rand[j]].fileName = fileName;
-            blockMem[rand[j]].occupied = true;
-            text += rand[j]+", ";
-            if (i != (length-1)) {
-                temp = rand[j];
-                if (j == 0) {
-                    rand[1] = getRandomLinkedBlock(max);
-                    j = 1;
-                } else {
-                    rand[0] = getRandomLinkedBlock(max);
-                    j = 0;
-                }
-                blockMem[temp].next = rand[j];
-            } 
+            rand = getIndexedRandomNumber(max);
+            blockMem[rand].fileID = FileAllocation.IDS;
+            blockMem[rand].fileName = fileName;
+            blockMem[rand].occupied = true;
+            blockMem[rand].root = false;
+            blockMem[start].indexes.add(rand);
+            text += rand+", ";
         }
         System.out.println("Occupied "+text+" and file name is "+fileName);     
     }
