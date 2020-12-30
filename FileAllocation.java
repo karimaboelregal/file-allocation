@@ -11,7 +11,7 @@ public class FileAllocation {
         Scanner input = new Scanner(System.in);
         System.out.println("Enter the block size");
         int size = input.nextInt();
-        System.out.println("1- for contigous, 2- for indexed");
+        System.out.println("1- for contigous, 2- for indexed, 3- for linked");
         int algo = input.nextInt();
         boolean cont = false;
         String fileName;
@@ -46,7 +46,7 @@ public class FileAllocation {
             } while(cont == true);
             contAllocation.output(size);
             contAllocation.output2(size);
-        } else {
+        } else if (algo == 2) {
             indexed indexMethod = new indexed(size);
             do {
                 System.out.println("Enter the file name and length");
@@ -62,6 +62,23 @@ public class FileAllocation {
                 }                
             } while(cont == true);
             indexMethod.output();
+        } else if (algo == 3) {
+             linked linkedMethod = new linked(size);
+            do {
+                System.out.println("Enter the file name and length");
+                fileName = input.next();
+                length = input.nextInt();
+                linkedMethod.AllocateMemory(length, fileName);
+                System.out.println("do you want to input another file(y/n)");
+                reply = input.next().charAt(0);
+                if (reply == 'y') {
+                    cont = true;
+                } else {
+                    cont = false;
+                }                
+            } while(cont == true);
+            linkedMethod.output();
+           
         }
     }
 }
