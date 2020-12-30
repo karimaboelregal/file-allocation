@@ -5,6 +5,7 @@ public class block {
     String fileName;
     int fileID;
     boolean occupied = false;
-    boolean indexedBlock;
+    boolean root;
+    int next = Integer.MIN_VALUE;
     ArrayList<Integer> indexes = new ArrayList<>();
 }
